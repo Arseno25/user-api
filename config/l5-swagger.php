@@ -5,8 +5,8 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'L5 Swagger UI',
-                'description' => 'L5 Swagger UI',
+                'title' => 'User API',
+                'description' => 'User API Documentation',
                 'version' => '1.0.0',
             ],
 

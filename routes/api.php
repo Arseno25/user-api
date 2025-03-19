@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('/users', UserController::class);
 
+Route::get('users', [UserController::class, 'index']);
 Route::post('users', [UserController::class, 'store'])->middleware('validate.user');
 Route::put('users/{user}', [UserController::class, 'update'])->middleware('validate.user');
 Route::patch('users/{user}', [UserController::class, 'update'])->middleware('validate.user');

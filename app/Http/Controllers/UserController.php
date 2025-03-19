@@ -14,7 +14,7 @@ class UserController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/users",
+     *     path="/api/users",
      *     summary="Get list of users",
      *     @OA\Response(response="200", description="A list of users")
      * )
@@ -26,7 +26,7 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/users",
+     *     path="/api/users",
      *     summary="Create a new user",
      *     @OA\RequestBody(
      *         required=true,
@@ -61,7 +61,7 @@ class UserController extends Controller
 
     /**
      * @OA\Get(
-     *     path="/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Get a user by ID",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response="200", description="User found"),
@@ -81,7 +81,7 @@ class UserController extends Controller
 
     /**
      * @OA\Put(
-     *     path="/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Update a user",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\RequestBody(
@@ -120,7 +120,7 @@ class UserController extends Controller
 
     /**
      * @OA\Delete(
-     *     path="/users/{id}",
+     *     path="/api/users/{id}",
      *     summary="Delete a user",
      *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
      *     @OA\Response(response="204", description="User deleted successfully"),
