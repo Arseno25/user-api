@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //})->middleware('auth:sanctum');
 
-Route::apiResource('/users', UserController::class);
+ //Menggunakan Route::apiResource untuk mendefinisikan rute CRUD secara otomatis
+//Route::apiResource('users', UserController::class)->middleware('validate.user');
 
 Route::get('users', [UserController::class, 'index']);
 Route::post('users', [UserController::class, 'store'])->middleware('validate.user');
+Route::get('users/{user}', [UserController::class, 'show']);
 Route::put('users/{user}', [UserController::class, 'update'])->middleware('validate.user');
-Route::patch('users/{user}', [UserController::class, 'update'])->middleware('validate.user');
 Route::delete('users/{user}', [UserController::class, 'destroy']);
