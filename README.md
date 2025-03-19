@@ -13,12 +13,12 @@ User API adalah aplikasi RESTful yang dibangun menggunakan Laravel. Aplikasi ini
 
 ## Teknologi yang Digunakan
 
-- Laravel (versi 11)
+- Laravel (versi 12)
 - PHP (versi 8.2 atau lebih tinggi)
 - Composer
 - Node.js dan npm
-- MySQL
-- Jest (untuk tes)
+- PostgreSQL
+- Jest (untuk testing)
 
 ## Dokumentasi API
 <a href="https://">Dokumentasi API</a>
@@ -27,8 +27,9 @@ User API adalah aplikasi RESTful yang dibangun menggunakan Laravel. Aplikasi ini
 
 1. **Clone Repository**:
    ```bash
-   git clone https://github.com/username/repo-name.git
-   cd repo-name
+   git clone https://github.com/Arseno25/user-api.git
+   cd user-api
+   ```
    
 2. **Install Dependencies**:
    ```bash
@@ -42,12 +43,12 @@ User API adalah aplikasi RESTful yang dibangun menggunakan Laravel. Aplikasi ini
      ```
    - Atur koneksi database di file `.env`.
     ```bash
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=nama_database
-   DB_USERNAME=username
-   DB_PASSWORD=password
+    DB_CONNECTION=pgsql
+    DB_HOST=127.0.0.1
+    DB_PORT=5432
+    DB_DATABASE=db_name
+    DB_USERNAME=db_user
+    DB_PASSWORD=db_password
     ```
    Generate kunci aplikasi:
      ```bash

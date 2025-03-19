@@ -50,6 +50,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        \Log::info('User show request', $user->toArray());
         return response()->json($user);
     }
 
@@ -84,6 +85,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message' => 'User deleted successfully'], 204);
     }
 }
