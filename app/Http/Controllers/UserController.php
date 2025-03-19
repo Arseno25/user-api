@@ -63,7 +63,7 @@ class UserController extends Controller
      * @OA\Get(
      *     path="/api/users/{id}",
      *     summary="Get a user by ID",
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string")),
      *     @OA\Response(response="200", description="User found"),
      *     @OA\Response(response="404", description="User not found")
      * )
@@ -83,7 +83,7 @@ class UserController extends Controller
      * @OA\Put(
      *     path="/api/users/{id}",
      *     summary="Update a user",
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string")),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(ref="#/components/schemas/User")
@@ -122,7 +122,7 @@ class UserController extends Controller
      * @OA\Delete(
      *     path="/api/users/{id}",
      *     summary="Delete a user",
-     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string")),
      *     @OA\Response(response="204", description="User deleted successfully"),
      *     @OA\Response(response="404", description="User not found")
      * )
