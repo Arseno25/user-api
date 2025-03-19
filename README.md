@@ -21,7 +21,7 @@ User API adalah aplikasi RESTful yang dibangun menggunakan Laravel. Aplikasi ini
 - Jest (untuk testing)
 
 ## Dokumentasi API
-<a href="https://">Dokumentasi API</a>
+<a href="https://user-api.laravel.cloud">Dokumentasi API</a>
 
 ### Langkah-langkah Instalasi dan Penggunaan Aplikasi di Lokal
 

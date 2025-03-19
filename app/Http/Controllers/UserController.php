@@ -3,40 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Container\Attributes\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
+/**
+ * @OA\Info(title="User API", version="1.0")
+ */
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/users",
+     *     summary="Get list of users",
+     *     @OA\Response(response="200", description="A list of users")
+     * )
      */
     public function index()
     {
-        //
+        return response()->json(User::all(), 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/users",
+     *     summary="Create a new user",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(response="201", description="User created successfully"),
+     *     @OA\Response(response="422", description="Validation error")
+     * )
      */
     public function store(Request $request)
     {
-        \Log::info('User creation request', $request->all());
-
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'age' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'age' => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => $validator->errors()->first()
+            ], 422);
         }
 
         $user = User::create([
-            'id' => Str::uuid(),
             'name' => $request->name,
             'email' => $request->email,
             'age' => $request->age,
@@ -46,45 +60,93 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/users/{id}",
+     *     summary="Get a user by ID",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response="200", description="User found"),
+     *     @OA\Response(response="404", description="User not found")
+     * )
      */
-    public function show(User $user)
+    public function show($id)
     {
-        \Log::info('User show request', $user->toArray());
-        return response()->json($user);
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        return response()->json($user, 200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/users/{id}",
+     *     summary="Update a user",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(response="200", description="User updated successfully"),
+     *     @OA\Response(response="422", description="Validation error"),
+     *     @OA\Response(response="404", description="User not found")
+     * )
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        \Log::info('User update request', $request->all());
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
 
         $validator = Validator::make($request->all(), [
-            'name' => 'string',
-            'email' => 'string|email|unique:users,email,' . $user->id,
-            'age' => 'integer',
+            'name' => 'sometimes|required|string|max:255',
+            'email' => 'sometimes|required|email|unique:users,email,' . $id,
+            'age' => 'sometimes|required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json([
+                'error' => $validator->errors()->first()
+            ], 422);
         }
 
-        $user->update($request->all());
+        $user->update($request->only(['name', 'email', 'age']));
 
-        return response()->json($user);
+        return response()->json($user, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/users/{id}",
+     *     summary="Delete a user",
+     *     @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="integer")),
+     *     @OA\Response(response="204", description="User deleted successfully"),
+     *     @OA\Response(response="404", description="User not found")
+     * )
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        \Log::info('User deletion request', $user->toArray());
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
 
         $user->delete();
 
-        return response()->json(['message' => 'User deleted successfully'], 204);
+        return response()->json(null, 204);
     }
 }
+
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     @OA\Property(property="name", type="string", example="John Doe"),
+ *     @OA\Property(property="email", type="string", example="john.doe@example.com"),
+ *     @OA\Property(property="age", type="integer", example=30)
+ * )
+ */
